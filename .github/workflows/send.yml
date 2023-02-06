@@ -12,8 +12,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with: 
-          repository: org/parent_repository
-          token: ${{ secrets.PRIVATE_TOKEN_GITHUB }}
+          branch: main
+          repository: The-Jotter/Notes
+          token: ${{ secrets.PUSHBUILDDEPLOY }}
           submodules: true
 
       - name: Pull & update submodules recursively
@@ -24,7 +25,7 @@ jobs:
       - name: Commit
         run: |
           git config user.email "actions@github.com"
-          git config user.name "Penman - update submodules"
+          git config user.name "Penman"
           git add --all
-          git commit -m "Update submodules" || echo "No changes to commit"
-          git push
+          git commit -m "Updated Units" || echo "No changes to commit"
+          git push -f
