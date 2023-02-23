@@ -4,5 +4,8 @@
         "**/README.md",
         "**/*.txt",
         "**/*.md"
-    ]
+    ],
+    "files.associations": {
+        "math.h": "c"
+    }
 }
