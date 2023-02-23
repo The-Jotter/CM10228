@@ -166,3 +166,86 @@ int main(void) {
     char* bytes_of_a = (char*)(void*)&a;
 }
 ```
+
+## Linked Lists 
+Linked lists are a collection of list nodes, which each contain a value, and a pointer to the next node.
+
+If the node is at the end of the list, it has a **NULL** Pointer `(void*)0`.
+Null pointers are usually used as error conditions, or as N/A.
+
+You MUST ensure you can handle this case.
+
+```c
+struct LinkedNode {
+    int value;
+    struct LinkedNode* next;
+}
+```
+
+## File Handling / IO
+
+In C, there is a special opaque type for files, `FILE`. It's opaque, as in we cannot touch the type directly, only by using functions with its pointer.
+
+### File-handling Functions
+* `fopen` &mdash; opens a file.
+* `fclode` &mdash; closes a file and ensures that no-one else is using it.
+* `fread` &mdash; reads a number of bytes from a file into a buffer.
+* `fwrite` &mdash; writes a number of bytes to a file.
+
+```c
+/// Read from test1.txt and copy it into test2.txt
+int main(void)
+{
+    FILE *input, *output;
+    char buf[1204]; // Temporary buffer of 1024 bytes/
+
+    int nread; // Number of bytes read.
+
+    input = fopen("test1.txt", "r");
+    output = fopen("test2.txt", "w");
+
+    if (input == NULL || output == NULL) {
+        return 1;
+    }
+
+    do {
+        nread = fread(buff, 1, 1024, inp); // Read up to 1024 bytes into buf, return the number of bytes read.
+        fwrite(buff, 1, nread, out); // Write the buffer back to the file.
+    } while(nread > 0); // Keep reading until we run out of bytes 
+
+    fclose(input);
+    fclose(output);
+
+    return 0;
+}
+```
+
+### Other I/O
+`<stdio.h>` sets up the standard three file pointers:
+* STDOUT &mdash; standard output; used for normal printing to the console.
+* STDIN  &mdash; standard input; used to gather input from the console.
+* STDERR &mdash; standard error; used to write errors to console (doesn't clog up STDOUT)
+
+Essentially, by calling `printf`, we're actually calling `fprintf`
+
+## Function Pointers
+We can also get dynamic access to functions, by using their pointers.
+
+Here, we can make a function `for_each` that executes a function for each element.
+```c title="For-each example"
+void for_each(int* arr, size_t size, void (func*)(int)) {
+    for (size_t i = 0; i < size; i++>) {
+        func(arr[i]);
+    }
+}
+
+int bigBoiArray[] = { 1, 2, 3, 4, 5, 6, 7, 8 };
+
+void logIt(int i) {
+    printf("%d\n", i);
+} 
+
+int main(void) {
+    for_each(bigBoiArray, 8, logIt);
+}
+```
